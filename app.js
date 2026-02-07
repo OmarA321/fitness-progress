@@ -179,58 +179,66 @@ async function refresh() {
   }
 }
 
-els.refreshBtn.addEventListener("click", refresh);
+if (els.refreshBtn) {
+  els.refreshBtn.addEventListener("click", refresh);
+}
 
-els.checkinForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const payload = {
-    name: els.checkinName.value,
-    date: els.checkinDate.value,
-    gym: els.checkinGym.checked ? 1 : 0,
-    sleep: els.checkinSleep.checked ? 1 : 0,
-    water: els.checkinWater.checked ? 1 : 0,
-    notes: els.checkinNotes.value.trim()
-  };
-  await apiCall("addEntry", payload);
-  els.checkinGym.checked = false;
-  els.checkinSleep.checked = false;
-  els.checkinWater.checked = false;
-  els.checkinNotes.value = "";
-  setTimeout(refresh, 800);
-});
+if (els.checkinForm) {
+  els.checkinForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const payload = {
+      name: els.checkinName.value,
+      date: els.checkinDate.value,
+      gym: els.checkinGym.checked ? 1 : 0,
+      sleep: els.checkinSleep.checked ? 1 : 0,
+      water: els.checkinWater.checked ? 1 : 0,
+      notes: els.checkinNotes.value.trim()
+    };
+    await apiCall("addEntry", payload);
+    els.checkinGym.checked = false;
+    els.checkinSleep.checked = false;
+    els.checkinWater.checked = false;
+    els.checkinNotes.value = "";
+    setTimeout(refresh, 800);
+  });
+}
 
-els.personForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const payload = {
-    name: els.personName.value.trim(),
-    start: Number(els.personStart.value),
-    current: Number(els.personCurrent.value),
-    goal: Number(els.personGoal.value)
-  };
-  await apiCall("upsertPerson", payload);
-  els.personName.value = "";
-  els.personStart.value = "";
-  els.personCurrent.value = "";
-  els.personGoal.value = "";
-  setTimeout(refresh, 800);
-});
+if (els.personForm) {
+  els.personForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const payload = {
+      name: els.personName.value.trim(),
+      start: Number(els.personStart.value),
+      current: Number(els.personCurrent.value),
+      goal: Number(els.personGoal.value)
+    };
+    await apiCall("upsertPerson", payload);
+    els.personName.value = "";
+    els.personStart.value = "";
+    els.personCurrent.value = "";
+    els.personGoal.value = "";
+    setTimeout(refresh, 800);
+  });
+}
 
-els.weightForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const name = els.weightName.value;
-  const current = Number(els.weightCurrent.value);
-  const existing = state.people.find((person) => person.name === name);
-  if (!existing) return;
-  const payload = {
-    name,
-    start: existing.start,
-    current,
-    goal: existing.goal
-  };
-  await apiCall("upsertPerson", payload);
-  els.weightCurrent.value = "";
-  setTimeout(refresh, 800);
-});
+if (els.weightForm) {
+  els.weightForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const name = els.weightName.value;
+    const current = Number(els.weightCurrent.value);
+    const existing = state.people.find((person) => person.name === name);
+    if (!existing) return;
+    const payload = {
+      name,
+      start: existing.start,
+      current,
+      goal: existing.goal
+    };
+    await apiCall("upsertPerson", payload);
+    els.weightCurrent.value = "";
+    setTimeout(refresh, 800);
+  });
+}
 
 els.checkinDate.value = todayISO();
 refresh();
