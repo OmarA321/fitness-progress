@@ -1,5 +1,5 @@
 const CONFIG = {
-  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbzgqHm15huKI5FZEERoO905Z7O6F1vsz9g8tHZVs2KpINPMCa1AeP2Nmk3JDDD2eTqE/exec"
+  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbwHKpbF9wNoeS8c2-YPjFf3jSklRgkiXp_9qcUQbMXGXw5LJpipgtctwPMyP1kKpqdn/exec"
 };
 
 const state = {
@@ -54,7 +54,7 @@ async function apiCall(action, payload = {}) {
 
   const res = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload)
   });
   return res.json();

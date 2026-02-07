@@ -6,7 +6,7 @@ const SHEET_NAMES = {
 function doGet(e) {
   const action = (e && e.parameter && e.parameter.action) || "summary";
   if (action === "summary") {
-    return jsonResponse(buildSummary());
+    return corsResponse(JSON.stringify(buildSummary()));
   }
   return jsonResponse({ error: "Unknown action" }, 400);
 }
