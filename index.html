@@ -17,16 +17,15 @@
     </header>
 
     <main class="container">
-      <section class="tabs">
-        <button class="tab-btn active" data-tab="daily-tab">Daily</button>
-        <button class="tab-btn" data-tab="weight-tab">Weight</button>
-      </section>
+      <nav class="tabs">
+        <a class="tab-btn active" href="index.html">Daily</a>
+        <a class="tab-btn" href="weight.html">Weight</a>
+      </nav>
 
-      <section class="tab-panel active" id="daily-tab">
-        <section class="card" id="status-card">
-          <div class="card-title">Status</div>
-          <div class="status-row">
-            <div id="status-pill" class="pill">Not connected</div>
+      <section class="card" id="status-card">
+        <div class="card-title">Status</div>
+        <div class="status-row">
+          <div id="status-pill" class="pill">Not connected</div>
             <button id="refresh-btn" class="btn ghost">Refresh</button>
           </div>
           <p class="hint">Connect this site to your Google Sheets web app in <span class="mono">app.js</span>.</p>
@@ -73,56 +72,9 @@
         </section>
 
         <section class="grid">
-          <section class="card" id="daily-card">
-            <div class="card-title">Latest Check-ins</div>
-            <div id="daily-list" class="list"></div>
-          </section>
-        </section>
-      </section>
-
-      <section class="tab-panel" id="weight-tab">
-        <section class="grid">
-          <section class="card" id="goal-card">
-            <div class="card-title">Closest To Goal</div>
-            <div id="goal-list" class="list"></div>
-          </section>
-
-          <section class="card" id="people-card">
-            <div class="card-title">Manage People</div>
-            <form id="person-form" class="form">
-              <label>
-                Name
-                <input id="person-name" type="text" required />
-              </label>
-              <label>
-                Start Weight (lbs)
-                <input id="person-start" type="number" step="0.1" required />
-              </label>
-              <label>
-                Current Weight (lbs)
-                <input id="person-current" type="number" step="0.1" required />
-              </label>
-              <label>
-                Goal Weight (lbs)
-                <input id="person-goal" type="number" step="0.1" required />
-              </label>
-              <button class="btn primary" type="submit">Save Person</button>
-            </form>
-            <div class="divider"></div>
-            <form id="weight-form" class="form">
-              <div class="card-title small">Quick Update: Current Weight</div>
-              <label>
-                Name
-                <select id="weight-name" required></select>
-              </label>
-              <label>
-                Current Weight (lbs)
-                <input id="weight-current" type="number" step="0.1" required />
-              </label>
-              <button class="btn accent" type="submit">Update Weight</button>
-            </form>
-            <div id="people-list" class="list"></div>
-          </section>
+        <section class="card" id="daily-card">
+          <div class="card-title">Latest Check-ins</div>
+          <div id="daily-list" class="list"></div>
         </section>
       </section>
     </main>

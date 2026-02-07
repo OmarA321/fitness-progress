@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fit Crew Tracker - Weight</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-gradient"></div>
+    <header class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">Weekly progress, daily habits</p>
+        <h1>Fit Crew Tracker</h1>
+        <p class="subhead">Goal-focused leaderboard and weight management.</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <nav class="tabs">
+        <a class="tab-btn" href="index.html">Daily</a>
+        <a class="tab-btn active" href="weight.html">Weight</a>
+      </nav>
+
+      <section class="grid">
+        <section class="card" id="goal-card">
+          <div class="card-title">Closest To Goal</div>
+          <div id="goal-list" class="list"></div>
+        </section>
+
+        <section class="card" id="people-card">
+          <div class="card-title">Manage People</div>
+          <form id="person-form" class="form">
+            <label>
+              Name
+              <input id="person-name" type="text" required />
+            </label>
+            <label>
+              Start Weight (lbs)
+              <input id="person-start" type="number" step="0.1" required />
+            </label>
+            <label>
+              Current Weight (lbs)
+              <input id="person-current" type="number" step="0.1" required />
+            </label>
+            <label>
+              Goal Weight (lbs)
+              <input id="person-goal" type="number" step="0.1" required />
+            </label>
+            <button class="btn primary" type="submit">Save Person</button>
+          </form>
+          <div class="divider"></div>
+          <form id="weight-form" class="form">
+            <div class="card-title small">Quick Update: Current Weight</div>
+            <label>
+              Name
+              <select id="weight-name" required></select>
+            </label>
+            <label>
+              Current Weight (lbs)
+              <input id="weight-current" type="number" step="0.1" required />
+            </label>
+            <button class="btn accent" type="submit">Update Weight</button>
+          </form>
+          <div id="people-list" class="list"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built for the crew. Data stored in Google Sheets.</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
