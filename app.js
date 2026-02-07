@@ -247,5 +247,7 @@ if (els.weightForm) {
   });
 }
 
-els.checkinDate.value = todayISO();
+if (els.checkinDate) {
+  els.checkinDate.value = todayISO();
+}
 refresh();
