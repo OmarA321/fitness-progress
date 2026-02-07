@@ -27,7 +27,10 @@ const els = {
   personName: document.getElementById("person-name"),
   personStart: document.getElementById("person-start"),
   personCurrent: document.getElementById("person-current"),
-  personGoal: document.getElementById("person-goal")
+  personGoal: document.getElementById("person-goal"),
+  weightForm: document.getElementById("weight-form"),
+  weightName: document.getElementById("weight-name"),
+  weightCurrent: document.getElementById("weight-current")
 };
 
 function setStatus(ok, text) {
@@ -130,11 +133,17 @@ function renderAll() {
   );
 
   els.checkinName.innerHTML = "";
+  els.weightName.innerHTML = "";
   state.people.forEach((person) => {
     const option = document.createElement("option");
     option.value = person.name;
     option.textContent = person.name;
     els.checkinName.appendChild(option);
+
+    const option2 = document.createElement("option");
+    option2.value = person.name;
+    option2.textContent = person.name;
+    els.weightName.appendChild(option2);
   });
 
   renderList(
@@ -203,6 +212,23 @@ els.personForm.addEventListener("submit", async (event) => {
   els.personStart.value = "";
   els.personCurrent.value = "";
   els.personGoal.value = "";
+  setTimeout(refresh, 800);
+});
+
+els.weightForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const name = els.weightName.value;
+  const current = Number(els.weightCurrent.value);
+  const existing = state.people.find((person) => person.name === name);
+  if (!existing) return;
+  const payload = {
+    name,
+    start: existing.start,
+    current,
+    goal: existing.goal
+  };
+  await apiCall("upsertPerson", payload);
+  els.weightCurrent.value = "";
   setTimeout(refresh, 800);
 });
 

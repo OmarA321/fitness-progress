@@ -47,9 +47,9 @@
                 <input type="checkbox" id="checkin-sleep" />
                 <span>Sleep 7-8 hrs (1 pt)</span>
               </label>
-              <label class="toggle disabled">
-                <input type="checkbox" id="checkin-water" disabled />
-                <span>Water (on hold)</span>
+              <label class="toggle">
+                <input type="checkbox" id="checkin-water" />
+                <span>Water 3-4 L (1 pt)</span>
               </label>
             </div>
             <label>
@@ -98,6 +98,19 @@
             <input id="person-goal" type="number" step="0.1" required />
           </label>
           <button class="btn primary" type="submit">Save Person</button>
+        </form>
+        <div class="divider"></div>
+        <form id="weight-form" class="form">
+          <div class="card-title small">Quick Update: Current Weight</div>
+          <label>
+            Name
+            <select id="weight-name" required></select>
+          </label>
+          <label>
+            Current Weight (lbs)
+            <input id="weight-current" type="number" step="0.1" required />
+          </label>
+          <button class="btn accent" type="submit">Update Weight</button>
         </form>
         <div id="people-list" class="list"></div>
       </section>
