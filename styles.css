@@ -77,6 +77,42 @@ h1 {
   gap: 24px;
 }
 
+.tabs {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  width: fit-content;
+}
+
+.tab-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: linear-gradient(120deg, rgba(255, 180, 84, 0.25), rgba(122, 166, 255, 0.2));
+  color: var(--text);
+}
+
+.tab-panel {
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tab-panel.active {
+  display: flex;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

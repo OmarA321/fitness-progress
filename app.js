@@ -30,7 +30,9 @@ const els = {
   personGoal: document.getElementById("person-goal"),
   weightForm: document.getElementById("weight-form"),
   weightName: document.getElementById("weight-name"),
-  weightCurrent: document.getElementById("weight-current")
+  weightCurrent: document.getElementById("weight-current"),
+  tabButtons: [...document.querySelectorAll(".tab-btn")],
+  tabPanels: [...document.querySelectorAll(".tab-panel")]
 };
 
 function setStatus(ok, text) {
@@ -233,4 +235,13 @@ els.weightForm.addEventListener("submit", async (event) => {
 });
 
 els.checkinDate.value = todayISO();
+els.tabButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    els.tabButtons.forEach((b) => b.classList.remove("active"));
+    els.tabPanels.forEach((panel) => panel.classList.remove("active"));
+    btn.classList.add("active");
+    const panel = document.getElementById(btn.dataset.tab);
+    if (panel) panel.classList.add("active");
+  });
+});
 refresh();
