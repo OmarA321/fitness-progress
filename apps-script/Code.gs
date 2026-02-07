@@ -6,13 +6,15 @@ const SHEET_NAMES = {
 function doGet(e) {
   const action = (e && e.parameter && e.parameter.action) || "summary";
   if (action === "summary") {
-    return corsResponse(JSON.stringify(buildSummary()));
+    const payload = JSON.stringify(buildSummary());
+    const callback = e && e.parameter && e.parameter.callback;
+    if (callback) {
+      return ContentService.createTextOutput(`${callback}(${payload});`)
+        .setMimeType(ContentService.MimeType.JAVASCRIPT);
+    }
+    return ContentService.createTextOutput(payload).setMimeType(ContentService.MimeType.JSON);
   }
   return jsonResponse({ error: "Unknown action" }, 400);
-}
-
-function doOptions() {
-  return corsResponse("");
 }
 
 function doPost(e) {
@@ -20,15 +22,15 @@ function doPost(e) {
   const body = e && e.postData && e.postData.contents ? JSON.parse(e.postData.contents) : {};
   if (action === "addEntry") {
     addDailyEntry(body);
-    return corsResponse(JSON.stringify({ ok: true }));
+    return jsonResponse({ ok: true });
   }
   if (action === "upsertPerson") {
     upsertPerson(body);
-    return corsResponse(JSON.stringify({ ok: true }));
+    return jsonResponse({ ok: true });
   }
   if (action === "deletePerson") {
     deletePerson(body.name);
-    return corsResponse(JSON.stringify({ ok: true }));
+    return jsonResponse({ ok: true });
   }
   return jsonResponse({ error: "Unknown action" }, 400);
 }
@@ -209,14 +211,5 @@ function jsonResponse(data, code) {
   if (code) {
     output.setResponseCode(code);
   }
-  return output;
-}
-
-function corsResponse(payload) {
-  const output = ContentService.createTextOutput(payload);
-  output.setMimeType(ContentService.MimeType.JSON);
-  output.setHeader("Access-Control-Allow-Origin", "*");
-  output.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  output.setHeader("Access-Control-Allow-Headers", "Content-Type");
   return output;
 }

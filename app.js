@@ -1,5 +1,5 @@
 const CONFIG = {
-  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbwHKpbF9wNoeS8c2-YPjFf3jSklRgkiXp_9qcUQbMXGXw5LJpipgtctwPMyP1kKpqdn/exec"
+  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbzQd0IK2u2sORLrv2fkNWUhMOPVWJoOGPuApUxIhHBoL9SmO0h_0CWDJO3-3J2sIA14/exec"
 };
 
 const state = {
@@ -48,16 +48,45 @@ async function apiCall(action, payload = {}) {
 
   const url = `${CONFIG.WEB_APP_URL}?action=${encodeURIComponent(action)}`;
   if (action === "summary") {
-    const res = await fetch(url);
-    return res.json();
+    return loadSummaryJsonp(url);
   }
 
-  const res = await fetch(url, {
+  await fetch(url, {
     method: "POST",
+    mode: "no-cors",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload)
   });
-  return res.json();
+  return { ok: true };
+}
+
+function loadSummaryJsonp(url) {
+  return new Promise((resolve, reject) => {
+    const callbackName = `jsonp_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+    const script = document.createElement("script");
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("JSONP timeout"));
+    }, 8000);
+
+    function cleanup() {
+      clearTimeout(timeout);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.src = `${url}&callback=${callbackName}`;
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("JSONP load failed"));
+    };
+    document.body.appendChild(script);
+  });
 }
 
 function renderList(container, items) {
@@ -158,7 +187,7 @@ els.checkinForm.addEventListener("submit", async (event) => {
   els.checkinSleep.checked = false;
   els.checkinWater.checked = false;
   els.checkinNotes.value = "";
-  await refresh();
+  setTimeout(refresh, 800);
 });
 
 els.personForm.addEventListener("submit", async (event) => {
@@ -174,7 +203,7 @@ els.personForm.addEventListener("submit", async (event) => {
   els.personStart.value = "";
   els.personCurrent.value = "";
   els.personGoal.value = "";
-  await refresh();
+  setTimeout(refresh, 800);
 });
 
 els.checkinDate.value = todayISO();
