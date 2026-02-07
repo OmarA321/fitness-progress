@@ -34,6 +34,7 @@ const els = {
 };
 
 function setStatus(ok, text) {
+  if (!els.statusPill) return;
   els.statusPill.textContent = text;
   els.statusPill.classList.toggle("ok", ok);
 }
