@@ -11,20 +11,24 @@ function doGet(e) {
   return jsonResponse({ error: "Unknown action" }, 400);
 }
 
+function doOptions() {
+  return corsResponse("");
+}
+
 function doPost(e) {
   const action = (e && e.parameter && e.parameter.action) || "";
   const body = e && e.postData && e.postData.contents ? JSON.parse(e.postData.contents) : {};
   if (action === "addEntry") {
     addDailyEntry(body);
-    return jsonResponse({ ok: true });
+    return corsResponse(JSON.stringify({ ok: true }));
   }
   if (action === "upsertPerson") {
     upsertPerson(body);
-    return jsonResponse({ ok: true });
+    return corsResponse(JSON.stringify({ ok: true }));
   }
   if (action === "deletePerson") {
     deletePerson(body.name);
-    return jsonResponse({ ok: true });
+    return corsResponse(JSON.stringify({ ok: true }));
   }
   return jsonResponse({ error: "Unknown action" }, 400);
 }
@@ -205,5 +209,14 @@ function jsonResponse(data, code) {
   if (code) {
     output.setResponseCode(code);
   }
+  return output;
+}
+
+function corsResponse(payload) {
+  const output = ContentService.createTextOutput(payload);
+  output.setMimeType(ContentService.MimeType.JSON);
+  output.setHeader("Access-Control-Allow-Origin", "*");
+  output.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  output.setHeader("Access-Control-Allow-Headers", "Content-Type");
   return output;
 }
