@@ -247,7 +247,9 @@ if (els.weightForm) {
   });
 }
 
+//"adding test"
 if (els.checkinDate) {
+  //"adding test"
   els.checkinDate.value = todayISO();
 }
 refresh();
