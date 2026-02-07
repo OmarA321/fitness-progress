@@ -93,6 +93,7 @@ function loadSummaryJsonp(url) {
 }
 
 function renderList(container, items) {
+  if (!container) return;
   container.innerHTML = "";
   if (!items.length) {
     container.innerHTML = '<div class="hint">No data yet.</div>';
@@ -132,18 +133,22 @@ function renderAll() {
     )
   );
 
-  els.checkinName.innerHTML = "";
-  els.weightName.innerHTML = "";
+  if (els.checkinName) els.checkinName.innerHTML = "";
+  if (els.weightName) els.weightName.innerHTML = "";
   state.people.forEach((person) => {
-    const option = document.createElement("option");
-    option.value = person.name;
-    option.textContent = person.name;
-    els.checkinName.appendChild(option);
+    if (els.checkinName) {
+      const option = document.createElement("option");
+      option.value = person.name;
+      option.textContent = person.name;
+      els.checkinName.appendChild(option);
+    }
 
-    const option2 = document.createElement("option");
-    option2.value = person.name;
-    option2.textContent = person.name;
-    els.weightName.appendChild(option2);
+    if (els.weightName) {
+      const option2 = document.createElement("option");
+      option2.value = person.name;
+      option2.textContent = person.name;
+      els.weightName.appendChild(option2);
+    }
   });
 
   renderList(
@@ -154,13 +159,15 @@ function renderAll() {
     )
   );
 
-  [...els.peopleList.querySelectorAll("button[data-name]")].forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      if (!confirm(`Remove ${btn.dataset.name}?`)) return;
-      await apiCall("deletePerson", { name: btn.dataset.name });
-      await refresh();
+  if (els.peopleList) {
+    [...els.peopleList.querySelectorAll("button[data-name]")].forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm(`Remove ${btn.dataset.name}?`)) return;
+        await apiCall("deletePerson", { name: btn.dataset.name });
+        await refresh();
+      });
     });
-  });
+  }
 }
 
 async function refresh() {
