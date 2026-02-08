@@ -97,14 +97,8 @@ function getDailyEntries() {
 }
 
 function buildWeeklyLeaderboard(daily) {
-  const now = new Date();
-  const start = new Date(now);
-  start.setDate(now.getDate() - 6);
-
   const scores = {};
   daily.forEach((entry) => {
-    const date = new Date(entry.date + "T00:00:00");
-    if (date < start) return;
     const points = (entry.gym || 0) + (entry.sleep || 0) + (entry.water || 0);
     if (!scores[entry.name]) {
       scores[entry.name] = { name: entry.name, points: 0, gym: 0, sleep: 0, water: 0 };
