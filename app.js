@@ -1,5 +1,5 @@
 const CONFIG = {
-  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbzQd0IK2u2sORLrv2fkNWUhMOPVWJoOGPuApUxIhHBoL9SmO0h_0CWDJO3-3J2sIA14/exec"
+  WEB_APP_URL: "https://script.google.com/macros/s/AKfycbzv5Q6vDtM9GZKJISqOzB2_xIGiMDZRtnyUuxra-dg4AUeEg3EwAZq1p4ZmhR9mE4Mr/exec"
 };
 
 const state = {

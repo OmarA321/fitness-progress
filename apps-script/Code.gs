@@ -87,11 +87,11 @@ function getDailyEntries() {
     .slice(1)
     .filter((row) => row[0] && row[1])
     .map((row) => ({
-      date: Utilities.formatDate(new Date(row[0]), Session.getScriptTimeZone(), "yyyy-MM-dd"),
-      name: row[1],
-      gym: Number(row[2]) || 0,
-      sleep: Number(row[3]) || 0,
-      water: Number(row[4]) || 0,
+      date: normalizeDate(row[0]),
+      name: normalizeName(row[1]),
+      gym: asPoint(row[2]),
+      sleep: asPoint(row[3]),
+      water: asPoint(row[4]),
       notes: row[5] || ""
     }));
 }
@@ -114,8 +114,39 @@ function buildWeeklyLeaderboard(daily) {
     .map((row) => ({
       name: row.name,
       points: row.points,
-      breakdown: `Gym ${row.gym} • Sleep ${row.sleep}`
+      breakdown: `Gym ${row.gym} • Sleep ${row.sleep} • Water ${row.water}`
     }));
+}
+
+function normalizeName(value) {
+  return String(value || "").trim();
+}
+
+function normalizeDate(value) {
+  if (value instanceof Date && !isNaN(value.getTime())) {
+    return Utilities.formatDate(value, Session.getScriptTimeZone(), "yyyy-MM-dd");
+  }
+
+  const text = String(value || "").trim();
+  if (!text) return "";
+
+  // Keep explicit ISO-like date strings stable to avoid locale parsing drift.
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
+
+  const parsed = new Date(text);
+  if (isNaN(parsed.getTime())) return text;
+  return Utilities.formatDate(parsed, Session.getScriptTimeZone(), "yyyy-MM-dd");
+}
+
+function asPoint(value) {
+  if (value === true) return 1;
+  if (value === false || value === null || value === undefined || value === "") return 0;
+
+  const text = String(value).trim().toLowerCase();
+  if (text === "true" || text === "yes" || text === "y" || text === "x") return 1;
+
+  const num = Number(value);
+  return Number.isFinite(num) ? num : 0;
 }
 
 function buildGoalLeaderboard(people) {
